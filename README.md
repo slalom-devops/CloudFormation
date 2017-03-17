@@ -12,7 +12,7 @@ This repo is for people to pull down an example template on building AWS infrast
     7. NAT Gateway for Private Subnet
     8. Attach to Private Subnet
 
-### Build Stack
+### Build Stack:
     1. Navigate to CloudFormation in AWS Console 
     2. Browse and upload your template file
     3. Name your stack, with your name, such as: Michael-Towbin-TestStack
