@@ -1,0 +1,43 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Launch Application in an Autoscaling Group'
+
+Resources:
+  MyLoadBalancer:
+    Type: AWS::ElasticLoadBalancing::LoadBalancer
+    Properties:
+      AvailabilityZones:
+      - "us-west-2a"
+      Listeners:
+      - LoadBalancerPort: '80'
+        InstancePort: '80'
+        Protocol: HTTP
+      #Hardcoding values is bad
+      #Since you exported your values, you can use something similiar as below  
+      SecurityGroups: Fn::ImportValue: !Sub "${YourInfrastructureStackName}-LoadBalancerSecurityGroup"
+      Subnets: Fn::ImportValue: !Sub "${YourInfrastructureStackName}-PublicSubnetID"
+
+  MyLaunchConfig:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties:
+      #Still waiting for AMI to use
+      ImageId:
+      SecurityGroups: Fn::ImportValue: !Sub "${YourInfrastructureStackName}-AppSecurityGroup"
+      InstanceType: t2.micro
+      BlockDeviceMappings:
+      - DeviceName: "/dev/sdk"
+        Ebs:
+          VolumeSize: '50'
+
+  WebServerASG:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      VPCZoneIdentifier: Fn::ImportValue: !Sub "${YourInfrastructureStackName}-VPC"
+      AvailabilityZones:
+        Fn::GetAZs: ''
+      LaunchConfigurationName:
+        Ref: MyLaunchConfig
+      MinSize: '1'
+      MaxSize: '1'
+      LoadBalancerNames:
+      - Ref: MyLoadBalancer
