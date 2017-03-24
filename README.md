@@ -1,6 +1,12 @@
 # CloudFormation
 
 This repo is for people to pull down an example template on building AWS infrastructure.  Review the diagram on the confluence page: https://slalom.atlassian.net/wiki/display/DEVOPS/Pivoting+to+DevOps+and+Cloud for a visual guide on what you should be attempting to create, below is a list of resources you will need to create.  
+<br />
+As a general best practice, when using CloudFormation, you should build out your templates for different purposes: <br />
+1. Basic Infrastructure
+2. Networking / Routes / Security Groups
+3. Application Front End
+4. Application Back End
 
 ### Infrastructure Template Should Include: <br />
     1. VPC
